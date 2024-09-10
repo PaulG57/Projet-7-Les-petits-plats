@@ -1,0 +1,59 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    background-image: url(../images/les_petits_plats.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 500px;
+    width: 100%;
+    color: white;
+    padding: 10px;
+}
+
+.logo img {
+    height: 25px;
+    padding: 20px;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 20%;
+}
+
+.search img {
+    width: 36px;
+    margin-left: -43px;
+}
+
+header h2 {
+    text-align: center;
+    padding: 20px;
+    color: #FFD15B;
+}
+
+.bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchBar {
+    width: 60%;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
