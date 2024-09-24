@@ -8,6 +8,7 @@ body {
     margin: auto;
     max-width: 1440px;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #E5E5E5;
 }
 
 header {
@@ -35,6 +36,7 @@ header {
 .search img {
     width: 36px;
     margin-left: -43px;
+    cursor: pointer;
 }
 
 header h2 {
@@ -61,18 +63,45 @@ header h2 {
 #recipes-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 25px;
+    justify-content: space-between;
 }
 
 /* Cards */
 .recipe {
     width: 380px;
-    border-radius: 10px;
+    height: 731px;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .recipe img {
-    width: 100%;
-    height: 23%;
+    height: 253px;
     object-fit: cover;
+}
+
+.recipe-txt {
+    height: 100px;
+    overflow: hidden;
+}
+
+.time {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    background-color: #FFD15B;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-size: smaller;
+}
+
+select {
+    width: 20%;
+    height: 46px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#nb-recettes {
+    font-weight: 800;
 }
