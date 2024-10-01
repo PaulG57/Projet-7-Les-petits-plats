@@ -20,37 +20,48 @@
             </h2>
             <div class="bar">
                 <input id="searchBar" type="search" placeholder="Rechercher une recette, un ingredient..." >
-                <img src="images/search.png" alt="loupe">
+                <img id="loupe" src="images/search.svg" alt="loupe">
             </div>
         </div>
     </header>
 
     <main class="container px-5">
         <div id="filters-zone" class="mb-5 d-flex justify-content-between align-items-baseline">
-            <div class="select w-50">
-                <select class="me-5">
-                    <option selected>Ingrédients</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                <select class="me-5">
-                    <option selected>Appareils</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <select>
-                    <option selected>Ustensiles</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+            <div class="d-flex gap-5">
+                <div class="dropdown">
+                    <button class="btn bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Ingrédients
+                    </button>
+                    <ul class="dropdown-menu" id="ingredients-dropdown">
+                      <input type="search" id="ingredients-search">
+                      <img class="loupe-lite" src="images/search-lite.svg" alt="loupe">
+                    </ul>
+                </div>
+                  
+                <div class="dropdown">
+                    <button class="btn bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Appareils
+                    </button>
+                    <ul class="dropdown-menu" id="appareils-dropdown">
+                      <input type="search" id="appareils-search">
+                      <img class="loupe-lite" src="images/search-lite.svg" alt="loupe">
+                    </ul>
+                </div>
+                  
+                <div class="dropdown">
+                    <button class="btn bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Ustensiles
+                    </button>
+                    <ul class="dropdown-menu" id="ustensiles-dropdown">
+                      <input type="search" id="ustensiles-search">
+                      <img class="loupe-lite" src="images/search-lite.svg" alt="loupe">
+                    </ul>
+                </div>
             </div>
 
             <p id="nb-recettes"> recettes</p>
         </div>
-        <section id="recipes-container">
+        <section class="recipes" id="recipes-container">
             
         </section>
     </main>
