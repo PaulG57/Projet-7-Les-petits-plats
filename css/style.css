@@ -73,6 +73,12 @@ header h2 {
     justify-content: space-between;
 }
 
+.recipes::after {
+    content: '';
+    width: 380px;
+    height: 10px;
+}
+
 /* Cards */
 .recipe {
     width: 380px;

@@ -1,6 +1,6 @@
-import { recipes } from "../data/recipes.js";
 
-export function remplirDropdowns() {
+
+export function remplirDropdowns(recipes) {
     const ingredientsSet = new Set();
     const appareilsSet = new Set();
     const ustensilesSet = new Set();
