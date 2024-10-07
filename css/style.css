@@ -94,7 +94,8 @@ header h2 {
 
 .recipe-txt {
     height: 100px;
-    overflow: hidden;
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .time {
