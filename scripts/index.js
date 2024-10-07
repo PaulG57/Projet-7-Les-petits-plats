@@ -1,7 +1,6 @@
 import { recipes } from "../data/recipes.js";
-import { createCardsDOM } from "./templates.js";
-import { remplirDropdowns } from "./select.js";
-import { search } from "./recherche.js";
+import { createCardsDOM } from "./template.js";
+import { remplirDropdowns } from "./dropdown.js";
 
 // Afficher le nombre de recettes sur la page
 
@@ -11,7 +10,6 @@ function init() {
     const cardsElement = createCardsDOM(recipes);
     container.append(...cardsElement);
     remplirDropdowns();
-    search();
 }
 
 init();
