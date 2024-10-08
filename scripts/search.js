@@ -1,8 +1,10 @@
 import { recipes } from "../data/recipes.js";
 import { updateRecipeDisplay } from "./index.js";
+import { remplirDropdowns } from "./dropdown.js";
 
 export function initSearch() {
     const searchInput = document.getElementById('searchBar');
+    const nbRecettes = document.getElementById('nb-recettes');
 
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
@@ -16,9 +18,13 @@ export function initSearch() {
                 return recipeName.includes(query) || ingredients.some(ing => ing.includes(query)) || description.includes(query);
             });
 
+            remplirDropdowns(filteredRecipes);
             updateRecipeDisplay(filteredRecipes);
+            nbRecettes.textContent = `${filteredRecipes.length} recettes`;
         } else {
+            remplirDropdowns(recipes);
             updateRecipeDisplay(recipes);
+            nbRecettes.textContent = `${recipes.length} recettes`;
         }
     });
 }
