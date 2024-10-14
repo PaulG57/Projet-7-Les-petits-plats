@@ -10,30 +10,44 @@ export function remplirDropdowns(recipesList) {
         recipe.ustensils.forEach(u => ustensiles.add(u));
     });
 
-    viderOptions('ingredients-dropdown', 'ingredients-search');
-    viderOptions('appareils-dropdown', 'appareils-search');
-    viderOptions('ustensiles-dropdown', 'ustensiles-search');
+    // Afficher les options initiales
+    afficherOptions([...ingredients], 'ingredients-dropdown');
+    afficherOptions([...appareils], 'appareils-dropdown');
+    afficherOptions([...ustensiles], 'ustensiles-dropdown');
 
-    ajouterOptions([...ingredients], 'ingredients-dropdown');
-    ajouterOptions([...appareils], 'appareils-dropdown');
-    ajouterOptions([...ustensiles], 'ustensiles-dropdown');
+    // Initialiser la recherche dans les dropdowns
+    initDropdownSearch([...ingredients], 'ingredients-dropdown', 'ingredients-search');
+    initDropdownSearch([...appareils], 'appareils-dropdown', 'appareils-search');
+    initDropdownSearch([...ustensiles], 'ustensiles-dropdown', 'ustensiles-search');
 }
 
-function viderOptions(dropdownId, searchInputId) {
+function afficherOptions(list, dropdownId) {
     const dropdown = document.getElementById(dropdownId);
-    const searchInput = document.getElementById(searchInputId);
+    const items = dropdown.querySelectorAll('.dropdown-item'); // Sélectionner les éléments de la liste existants
 
-    dropdown.innerHTML = '';
-    dropdown.appendChild(searchInput);
-}
+    // Supprimer uniquement les éléments de la liste existants, mais garder la zone de recherche
+    items.forEach(item => item.remove());
 
-function ajouterOptions(list, dropdownId) {
-    const dropdown = document.getElementById(dropdownId);
-
+    // Ajouter les nouvelles options
     list.forEach(item => {
         const listItem = document.createElement('li');
         listItem.textContent = item;
         listItem.className = 'dropdown-item';
-        dropdown.appendChild(listItem); 
+        dropdown.appendChild(listItem);
+    });
+}
+
+// Fonction pour initier la recherche dans les dropdowns en filtrant les données
+function initDropdownSearch(initialList, dropdownId, searchInputId) {
+    const searchInput = document.getElementById(searchInputId);
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+
+        // Filtrer les données en fonction de la recherche
+        const filteredList = initialList.filter(item => item.toLowerCase().includes(query));
+
+        // Afficher les options filtrées
+        afficherOptions(filteredList, dropdownId);
     });
 }
