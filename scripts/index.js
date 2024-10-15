@@ -5,6 +5,7 @@ import { remplirDropdowns } from "./dropdown.js";
 
 // Liste pour stocker les tags sélectionnés
 let selectedTags = [];
+const searchInput = document.getElementById('searchBar'); // Déclaration globale
 
 // Mettre à jour les recettes affichées
 function updateRecipeDisplay(recipes) {
@@ -18,7 +19,6 @@ function updateRecipeDisplay(recipes) {
 
 // Gérer la recherche
 function handleSearch() {
-    const searchInput = document.getElementById('searchBar');
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
         const filteredRecipes = initSearch(query, recipes, selectedTags);
@@ -29,11 +29,15 @@ function handleSearch() {
 
 // Gérer la sélection des tags
 function handleTagSelection() {
-    document.querySelectorAll('.dropdown-item').forEach(item => {
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach(item => {
         item.addEventListener('click', (e) => {
             const tag = e.target.textContent.toLowerCase();
+            console.log("Tag cliqué :", tag);  // Log pour le débogage
+
             if (!selectedTags.includes(tag)) {
                 selectedTags.push(tag);
+                console.log("Tags sélectionnés :", selectedTags);  // Log pour le débogage
                 updateRecipeDisplay(initSearch(searchInput.value, recipes, selectedTags));
             }
         });
