@@ -1,55 +1,48 @@
+// index.js
 import { recipes } from "../data/recipes.js";
 import { createCardsDOM } from "./template.js";
 import { initSearch } from "./search.js";
 import { remplirDropdowns } from "./dropdown.js";
 
-// Liste pour stocker les tags sélectionnés
-let selectedTags = [];
-const searchInput = document.getElementById('searchBar'); // Déclaration globale
+let selectedTags = []; // Liste des tags sélectionnés
 
-// Mettre à jour les recettes affichées
+// Met à jour l'affichage des recettes et des dropdowns
+function updateDisplay(query = '') {
+    const filteredRecipes = initSearch(query, recipes, selectedTags);
+    remplirDropdowns(filteredRecipes);
+    updateRecipeDisplay(filteredRecipes);
+    attachDropdownEvents(); // Ré-attache les événements après mise à jour
+}
+
+// Met à jour le nombre et les cartes de recettes affichées
 function updateRecipeDisplay(recipes) {
     const container = document.getElementById("recipes-container");
     container.innerHTML = '';
-    const cardsElement = createCardsDOM(recipes); 
-    container.append(...cardsElement);
-    const nbRecettes = document.getElementById("nb-recettes");
-    nbRecettes.textContent = `${recipes.length} recettes`;
+    container.append(...createCardsDOM(recipes));
+    document.getElementById("nb-recettes").textContent = ` ${recipes.length} recettes`;
 }
 
-// Gérer la recherche
-function handleSearch() {
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        const filteredRecipes = initSearch(query, recipes, selectedTags);
-        remplirDropdowns(filteredRecipes);
-        updateRecipeDisplay(filteredRecipes);
+// Gère l'ajout/suppression de tags et met à jour l'affichage
+function toggleTag(tag) {
+    selectedTags = selectedTags.includes(tag) 
+        ? selectedTags.filter(t => t !== tag) 
+        : [...selectedTags, tag];
+    updateDisplay(document.getElementById('searchBar').value);
+}
+
+// Attache les événements aux éléments des dropdowns
+function attachDropdownEvents() {
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', () => toggleTag(item.textContent.toLowerCase()));
     });
 }
 
-// Gérer la sélection des tags
-function handleTagSelection() {
-    const dropdownItems = document.querySelectorAll('.dropdown-item');
-    dropdownItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            const tag = e.target.textContent.toLowerCase();
-            console.log("Tag cliqué :", tag);  // Log pour le débogage
-
-            if (!selectedTags.includes(tag)) {
-                selectedTags.push(tag);
-                console.log("Tags sélectionnés :", selectedTags);  // Log pour le débogage
-                updateRecipeDisplay(initSearch(searchInput.value, recipes, selectedTags));
-            }
-        });
-    });
-}
-
-// Initialiser l'application
+// Initialise l'application
 function init() {
-    remplirDropdowns(recipes);
-    updateRecipeDisplay(recipes);  // Afficher les recettes initiales
-    handleSearch();                 // Gérer les événements de recherche
-    handleTagSelection();           // Gérer la sélection des tags
+    updateDisplay(); // Affiche les recettes initiales et configure les dropdowns
+    document.getElementById('searchBar').addEventListener('input', (e) => {
+        updateDisplay(e.target.value);
+    });
 }
 
 init();
