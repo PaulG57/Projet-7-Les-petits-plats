@@ -33,8 +33,19 @@ function toggleTag(tag) {
 // Attache les événements aux éléments des dropdowns
 function attachDropdownEvents() {
     document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', () => toggleTag(item.textContent.toLowerCase()));
+        item.addEventListener('click', () => {
+            toggleTag(item.textContent.toLowerCase());
+            displaySelectedTags(); // Mettre à jour l'affichage des tags
+        });
     });
+}
+
+// Affiche les tags sélectionnés dans la zone dédiée
+function displaySelectedTags() {
+    const tagsContainer = document.getElementById('tags-zone');
+    tagsContainer.innerHTML = selectedTags
+        .map(tag => `<span class="badge rounded-pill bg-secondary text-white">${tag}</span>`)
+        .join(' ');
 }
 
 // Initialise l'application
