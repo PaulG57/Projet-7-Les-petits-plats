@@ -1,53 +1,50 @@
-export function remplirDropdowns(recipesList) {
-    let ingredients = new Set();
-    let appareils = new Set();
-    let ustensiles = new Set();
+export function fillDropdowns(filteredRecipes) {
+    const ingredientsSet = new Set();
+    const appareilsSet = new Set();
+    const ustensilesSet = new Set();
 
-    // Récupérer les ingrédients, appareils et ustensiles des recettes filtrées ou totales
-    recipesList.forEach(recipe => {
-        recipe.ingredients.forEach(i => ingredients.add(i.ingredient));
-        appareils.add(recipe.appliance);
-        recipe.ustensils.forEach(u => ustensiles.add(u));
+    // Récupère les ingrédients, appareils, et ustensiles uniques des recettes affichées
+    filteredRecipes.forEach(recipe => {
+        recipe.ingredients.forEach(ing => ingredientsSet.add(ing.ingredient));
+        appareilsSet.add(recipe.appliance);
+        recipe.ustensils.forEach(ust => ustensilesSet.add(ust));
     });
 
-    // Afficher les options initiales
-    afficherOptions([...ingredients], 'ingredients-dropdown');
-    afficherOptions([...appareils], 'appareils-dropdown');
-    afficherOptions([...ustensiles], 'ustensiles-dropdown');
-
-    // Initialiser la recherche dans les dropdowns
-    initDropdownSearch([...ingredients], 'ingredients-dropdown', 'ingredients-search');
-    initDropdownSearch([...appareils], 'appareils-dropdown', 'appareils-search');
-    initDropdownSearch([...ustensiles], 'ustensiles-dropdown', 'ustensiles-search');
+    // Remplir les dropdowns dynamiquement
+    updateDropdown('ingredients-dropdown', [...ingredientsSet], 'ingredients-search');
+    updateDropdown('appareils-dropdown', [...appareilsSet], 'appareils-search');
+    updateDropdown('ustensiles-dropdown', [...ustensilesSet], 'ustensiles-search');
 }
 
-function afficherOptions(list, dropdownId) {
+// Fonction pour mettre à jour les options d'un dropdown et permettre la recherche
+function updateDropdown(dropdownId, items, searchInputId) {
     const dropdown = document.getElementById(dropdownId);
-    const items = dropdown.querySelectorAll('.dropdown-item'); // Sélectionner les éléments de la liste existants
-
-    // Supprimer uniquement les éléments de la liste existants, mais garder la zone de recherche
-    items.forEach(item => item.remove());
-
-    // Ajouter les nouvelles options
-    list.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = item;
-        listItem.className = 'dropdown-item';
-        dropdown.appendChild(listItem);
-    });
-}
-
-// Fonction pour initier la recherche dans les dropdowns en filtrant les données
-function initDropdownSearch(initialList, dropdownId, searchInputId) {
     const searchInput = document.getElementById(searchInputId);
 
+    // Focus sur le champ de recherche
+    dropdown.parentElement.querySelector('button').addEventListener('click', () => {
+        searchInput.focus();
+    });
+
+    // Ajoute l'événement pour filtrer les données avant de les afficher
     searchInput.addEventListener('input', () => {
         const query = searchInput.value.toLowerCase();
+        const filteredItems = items.filter(item => item.toLowerCase().includes(query));
+        displayDropdownItems(dropdown, filteredItems); // Afficher les items filtrés
+    });
 
-        // Filtrer les données en fonction de la recherche
-        const filteredList = initialList.filter(item => item.toLowerCase().includes(query));
+    // Affiche les items initiaux sans filtrage
+    displayDropdownItems(dropdown, items);
+}
 
-        // Afficher les options filtrées
-        afficherOptions(filteredList, dropdownId);
+function displayDropdownItems(dropdown, items) {
+    dropdown.querySelectorAll('li.dropdown-item').forEach(item => item.remove()); // Supprime les anciennes options
+
+    // Ajoute les nouvelles options
+    items.forEach(item => {
+        const option = document.createElement('li');
+        option.classList.add('dropdown-item');
+        option.textContent = item;
+        dropdown.appendChild(option);
     });
 }

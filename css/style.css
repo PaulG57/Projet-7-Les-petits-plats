@@ -137,6 +137,7 @@ header h2 {
     align-items: center;
     border: none;
     padding: 8px;
+    border-radius: 10px;
 }
 
 .loupe-lite {
@@ -165,5 +166,9 @@ header input[type="search"]::-webkit-search-cancel-button {
     cursor: pointer;
 }
 .dropdown-item:hover {
+    background-color: #FFD15B;
+}
+
+.tag-btn, .tag-btn:hover {
     background-color: #FFD15B;
 }
