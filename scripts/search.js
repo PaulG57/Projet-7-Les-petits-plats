@@ -1,30 +1,36 @@
 export function searchRecipes(query, recipes, selectedTags = []) {
     const normalizedQuery = query.toLowerCase().trim();
+    const filteredRecipes = [];
 
-    // Si moins de 3 caractères et pas de tags, retourne toutes les recettes
-    if (normalizedQuery.length < 3 && selectedTags.length === 0) return recipes;
-
-    return recipes.filter(recipe => {
+    // Boucle sur les recettes avec for...of
+    for (const recipe of recipes) {
         const recipeName = recipe.name.toLowerCase();
         const description = recipe.description.toLowerCase();
         const ingredients = recipe.ingredients.map(ing => ing.ingredient.toLowerCase());
-        const appareils = recipe.appliance.toLowerCase();
-        const ustensiles = recipe.ustensils.map(ust => ust.toLowerCase());
+        const appliance = recipe.appliance.toLowerCase();
+        const ustensils = recipe.ustensils.map(ust => ust.toLowerCase());
 
-        // Filtrage par requête
+        // Vérifie si la recette correspond à la recherche
         const matchesQuery = normalizedQuery.length < 3 || 
             recipeName.includes(normalizedQuery) ||
             description.includes(normalizedQuery) ||
             ingredients.some(ing => ing.includes(normalizedQuery));
 
-        // Filtrage par tags
-        const matchesTags = selectedTags.every(tag => 
-            ingredients.includes(tag.toLowerCase()) ||
-            appareils.includes(tag.toLowerCase()) ||
-            ustensiles.includes(tag.toLowerCase())
-        );
+        // Vérifie les tags
+        let matchesTags = true;
+        for (const tag of selectedTags) {
+            const tagLower = tag.toLowerCase();
+            if (!ingredients.includes(tagLower) && appliance !== tagLower && !ustensils.includes(tagLower)) {
+                matchesTags = false;
+                break;
+            }
+        }
 
-        // Retourner vrai si les deux correspondent
-        return matchesQuery && matchesTags;
-    });
+        // Ajoute la recette si elle correspond à la recherche et aux tags
+        if (matchesQuery && matchesTags) {
+            filteredRecipes.push(recipe);
+        }
+    }
+
+    return filteredRecipes;
 }
