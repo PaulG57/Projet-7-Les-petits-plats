@@ -4,7 +4,7 @@ export function createCardsDOM(recipes) {
         recipeDiv.classList.add("recipe", "card", "mb-5");
 
         recipeDiv.innerHTML = `
-            <img class="card-img-top" src="images/recipes/${recipe.image}" alt="${recipe.name}">
+            <img class="card-img-top" src="images/recipes/${recipe.image}" loading="lazy" alt="${recipe.name}">
             <div class="card-body">
                 <h3 class="time">${recipe.time}min</h3>
                 <h5 class="card-title fw-bold mb-4">${recipe.name}</h5>
