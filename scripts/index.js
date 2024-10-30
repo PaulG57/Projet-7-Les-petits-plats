@@ -10,10 +10,17 @@ function displayRecipes() {
     const query = document.getElementById('searchBar').value; // Récupère la valeur de la barre de recherche
     const filteredRecipes = searchRecipes(query, recipes, selectedTags); // Utilise la recherche et les tags
     const container = document.getElementById("recipes-container");
-    container.innerHTML = ''; // Vider les recettes précédentes
-    container.append(...createCardsDOM(filteredRecipes)); // Affiche les nouvelles recettes
-    document.getElementById("nb-recettes").textContent = `${filteredRecipes.length} recettes`;
+    container.innerHTML = ''; // Vide les recettes précédentes
 
+    if (filteredRecipes.length === 0) {
+        // Affiche un message dans le conteneur des recettes si aucun résultat
+        container.classList.remove('recipes');
+        container.innerHTML = `<p class="no-results mt-5">Aucune recette ne contient ‘${query}’. Vous pouvez chercher ‘tarte aux pommes’, ‘poisson’, etc.</p>`;
+    } else {
+        container.append(...createCardsDOM(filteredRecipes)); // Affiche les nouvelles recettes
+    }
+
+    document.getElementById("nb-recettes").textContent = `${filteredRecipes.length} recettes`;
     fillDropdowns(filteredRecipes); // Met à jour les dropdowns avec les recettes filtrées
 }
 
